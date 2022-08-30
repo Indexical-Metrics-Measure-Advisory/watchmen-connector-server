@@ -5,10 +5,10 @@ import plotly.express as px
 from ml_sdk.ml.sdk.index import WatchmenClient
 from plotly import graph_objects as go
 
-import streamlit as st
-from utils.tools import get_most_covered_index
-from utils.utils import hide_streamlit_style
-from utils.watchmen_streamlit_client import WatchmenStreamlitClient
+from connect_server import streamlit as st
+from connect_server.utils import get_most_covered_index
+from connect_server.utils import hide_streamlit_style
+from connect_server.utils.watchmen_streamlit_client import WatchmenStreamlitClient
 
 achievement_id =sys.argv[1]
 

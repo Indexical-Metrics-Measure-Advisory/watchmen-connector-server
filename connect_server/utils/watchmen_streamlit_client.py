@@ -1,7 +1,7 @@
 from ml_sdk.ml.sdk.index import WatchmenClient
 from ml_sdk.ml.sdk.watchmen.sdk import load_indicator_by_id
 
-from utils.sdk import load_subject_by_id
+from connect_server.utils.sdk import load_subject_by_id
 
 
 class WatchmenStreamlitClient(object):

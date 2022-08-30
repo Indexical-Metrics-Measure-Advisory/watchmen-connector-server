@@ -3,9 +3,9 @@ import subprocess
 
 from fastapi import FastAPI
 
-from model.task import WatchmenTask, AchievementPluginTaskStatus
-from utils.sdk import task_call_back
-from utils.tools import get_free_port
+from connect_server.model import WatchmenTask, AchievementPluginTaskStatus
+from connect_server.utils.sdk import task_call_back
+from connect_server.utils import get_free_port
 
 app = FastAPI(
 	title="watchmen connector server"

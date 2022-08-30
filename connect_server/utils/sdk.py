@@ -1,7 +1,7 @@
 import requests
 from ml_sdk.ml.sdk.watchmen.sdk import build_headers
 
-from model.task import TaskResult
+from connect_server.model.task import TaskResult
 
 local_env_url = "http://localhost:8000"
 
