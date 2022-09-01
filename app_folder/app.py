@@ -6,10 +6,28 @@ from client.achievement.watchmen_achievement_client import WatchmenStreamlitClie
 from client.index import WatchmenClient
 from plotly import graph_objects as go
 
-from connect_server import streamlit as st
-from connect_server.utils.utils import hide_streamlit_style, get_most_covered_index
+import streamlit as st
 
 achievement_id =sys.argv[1]
+
+
+def hide_streamlit_style(streamlit):
+	hide_streamlit_style = """
+		            <style>
+		            #MainMenu {visibility: hidden;}
+		            footer {visibility: hidden;}
+		            </style>
+		            """
+	streamlit.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+def get_most_covered_index(sum_counts,df,binned=[]):
+	temp_count = 0
+	for index, row in df.iterrows():
+		temp_count = temp_count + row[0]
+		binned.append(index)
+		if temp_count / sum_counts > 0.8:
+			break
+	return binned
 
 client = WatchmenStreamlitClient(WatchmenClient(token="0Z6ag50cdIPamBIgf8KfoQ"))
 client.init(achievement_id)
