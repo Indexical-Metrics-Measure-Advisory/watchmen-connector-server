@@ -16,7 +16,7 @@ class WatchmenTask(BaseModel):
 	achievementId: str = None
 	pluginType: str = None
 	params: List[str] = None
-	pluginCode:str = None
+	pluginCode: str = None
 
 
 class TaskResult(BaseModel):
