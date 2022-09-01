@@ -28,13 +28,13 @@ def shutdown_event():
 @app.post("/task/run")
 def run_connector_server(task: WatchmenTask):
 	if task.pluginType == STREAMLIT:
-		port = run_streamlit_with_pm2(task)
+		port = run_streamlit_with_pm2(task,app_dict)
 		task_call_back(settings.watchmen_token, task.achievementTaskId, AchievementPluginTaskStatus.SUCCESS,
-		               settings.watchmen_host + ":{}".format(port))
+		               settings.streamlit_host + ":{}".format(port))
 
 	elif task.pluginType == JUPYTER:
 		task_call_back(settings.watchmen_token, task.achievementTaskId, AchievementPluginTaskStatus.SUCCESS,
-		               settings.jupyter_url + "/" + task.templateName)
+		               settings.jupyter_url + "/" + task.pluginCode)
 
 	else:
 		raise ValueError("task pluginType is not supported {}".format(task.pluginType))

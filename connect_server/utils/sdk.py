@@ -13,8 +13,10 @@ def load_subject_by_id(token,subject_id):
 
 def task_call_back(token,task_id , status,url):
 	task = TaskResult(taskId=task_id, status=status ,url=url)
-
-	response = requests.post(settings.watchmen_host + "/indicator/achievement/task/result", data=task.json(),
+	url = settings.watchmen_host + "/indicator/achievement/task/result"
+	print(url)
+	response = requests.post(url, data=task.json(),
 	                         headers=build_headers(token))
-	return response.json()
+	print(response.status_code)
+
 

@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
@@ -14,8 +14,9 @@ class AchievementPluginTaskStatus(str, Enum):
 class WatchmenTask(BaseModel):
 	achievementTaskId: str = None
 	achievementId: str = None
-	templateName: str = None
 	pluginType: str = None
+	params: List[str] = None
+	pluginCode:str = None
 
 
 class TaskResult(BaseModel):
