@@ -2,13 +2,12 @@ import sys
 
 import pandas
 import plotly.express as px
-from ml_sdk.ml.sdk.index import WatchmenClient
+from client.achievement.watchmen_achievement_client import WatchmenStreamlitClient
+from client.index import WatchmenClient
 from plotly import graph_objects as go
 
 from connect_server import streamlit as st
-from connect_server.utils import get_most_covered_index
-from connect_server.utils import hide_streamlit_style
-from connect_server.utils.watchmen_streamlit_client import WatchmenStreamlitClient
+from connect_server.utils.utils import hide_streamlit_style, get_most_covered_index
 
 achievement_id =sys.argv[1]
 

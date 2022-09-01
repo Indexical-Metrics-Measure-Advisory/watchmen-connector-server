@@ -3,20 +3,20 @@ import subprocess
 
 from fastapi import FastAPI
 
-from connect_server.model import WatchmenTask, AchievementPluginTaskStatus
+from connect_server.config import settings
+from connect_server.model.task import WatchmenTask, AchievementPluginTaskStatus
+from connect_server.streamlit.run import run_streamlit_with_pm2
 from connect_server.utils.sdk import task_call_back
-from connect_server.utils import get_free_port
+
+JUPYTER = "jupyter"
+
+STREAMLIT = "streamlit"
 
 app = FastAPI(
 	title="watchmen connector server"
 )
 
 app_dict = {}
-
-
-@app.get("/")
-def read_root():
-	return {"Hello": "World"}
 
 @app.on_event("shutdown")
 def shutdown_event():
@@ -26,23 +26,15 @@ def shutdown_event():
 
 
 @app.post("/task/run")
-def run_pm2(task: WatchmenTask):
-	if task.pluginType =="streamlit":
-		if task.templateName is None:
-			task.templateName = "run_app"
+def run_connector_server(task: WatchmenTask):
+	if task.pluginType == STREAMLIT:
+		port = run_streamlit_with_pm2(task)
+		task_call_back(settings.watchmen_token, task.achievementTaskId, AchievementPluginTaskStatus.SUCCESS,
+		               settings.watchmen_host + ":{}".format(port))
 
-		if task.templateName not in app_dict:
-			port = get_free_port()
-			cmd = "pm2 start {}.py -- {} {}".format(task.templateName, port, task.achievementId)
-			subprocess.run(shlex.split(cmd))
-			app_dict[task.templateName] = port
-		else:
-			port = app_dict[task.templateName]
-			cmd = "pm2 restart {}.py -- {} {}".format(task.templateName, port, task.achievementId)
-			subprocess.run(shlex.split(cmd))
+	elif task.pluginType == JUPYTER:
+		task_call_back(settings.watchmen_token, task.achievementTaskId, AchievementPluginTaskStatus.SUCCESS,
+		               settings.jupyter_url + "/" + task.templateName)
 
-		task_call_back("0Z6ag50cdIPamBIgf8KfoQ", task.achievementTaskId, AchievementPluginTaskStatus.SUCCESS,
-		               "http://localhost:{}".format(port))
-	elif task.pluginType=="jupyter":
-		task_call_back("0Z6ag50cdIPamBIgf8KfoQ", task.achievementTaskId, AchievementPluginTaskStatus.SUCCESS,
-		               "http://localhost:{}/lab/tree/customer.ipynb".format("8888"))
+	else:
+		raise ValueError("task pluginType is not supported {}".format(task.pluginType))

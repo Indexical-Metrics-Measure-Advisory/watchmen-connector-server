@@ -14,15 +14,11 @@ class AchievementPluginTaskStatus(str, Enum):
 class WatchmenTask(BaseModel):
 	achievementTaskId: str = None
 	achievementId: str = None
-	templateName :str = None
-	pluginType :str = None
-
-
-	# status: AchievementPluginTaskStatus = None
-	# url: str = None
+	templateName: str = None
+	pluginType: str = None
 
 
 class TaskResult(BaseModel):
 	taskId: str = None
 	status: AchievementPluginTaskStatus = None
-	url: Optional[str] =None
+	url: Optional[str] = None
