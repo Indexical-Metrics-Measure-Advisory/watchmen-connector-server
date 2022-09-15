@@ -8,7 +8,12 @@ from plotly import graph_objects as go
 
 import streamlit as st
 
+pandas.options.mode.chained_assignment = None
+
 achievement_id =sys.argv[1]
+watchmen_host = sys.argv[2]
+
+# print(watchmen_host)
 
 
 def hide_streamlit_style(streamlit):
@@ -29,7 +34,7 @@ def get_most_covered_index(sum_counts,df,binned=[]):
 			break
 	return binned
 
-client = WatchmenStreamlitClient(WatchmenClient(token="0Z6ag50cdIPamBIgf8KfoQ"))
+client = WatchmenStreamlitClient(WatchmenClient(token="0Z6ag50cdIPamBIgf8KfoQ",host=watchmen_host))
 client.init(achievement_id)
 # global_filters = build_condition_bar(st)
 hide_streamlit_style(st)
@@ -154,9 +159,9 @@ else:
 with st.container():
 	st.subheader('Proportion of new and old customers: ')
 
-	policy_df = client.load_dataset("policy count by is new customer")
-	quotation_df = client.load_dataset("quotation count by is new customer")
-	lead_df = client.load_dataset("leads count by is new customer")
+	policy_df = client.load_dataset(1004406207425214464)
+	quotation_df = client.load_dataset(1004405934468298752)
+	lead_df = client.load_dataset(1004405437564909568)
 
 	##TODO  add date filter
 
@@ -168,7 +173,7 @@ with st.container():
 	st.plotly_chart(fig2, use_container_width=True)
 
 with st.container():
-	policy_customer_df = client.load_dataset("policy customer dataset")
+	policy_customer_df = client.load_dataset(991757352699171840)
 
 	##TODO  add date filter
 	st.markdown('### Compare the attributes of new and old customers through different dimensions')
@@ -242,7 +247,8 @@ with st.container():
 
 		st.plotly_chart(fig, use_container_width=True)
 
-	print(age_old_df.compare(age_new_df))
+	# print(age_old_df.compare(age_new_df))
+
 
 	st.markdown('#### Sale mode distribution of  customers  ')
 	col1, col2 = st.columns(2)
@@ -316,7 +322,7 @@ with st.container():
 # with st.container:
 st.markdown("### User Profile for {}".format(promo_code))
 
-age_binned = age_new_df.append(age_old_df).groupby('binned').sum().sort_values(
+age_binned = pandas.concat([age_new_df,age_old_df]).groupby('binned').sum().sort_values(
 	by="counts",
 	ascending=False)
 sum_counts = age_binned['counts'].sum()
@@ -324,7 +330,7 @@ sum_counts = age_binned['counts'].sum()
 
 st.markdown("- Most users are in {} age ranges".format(",".join(get_most_covered_index(sum_counts,age_binned,[]))))
 
-anual_income = anul_income_new_df.append(anual_income_old_df)
+anual_income = pandas.concat([anul_income_new_df,anual_income_old_df])
 df2 = anual_income.groupby('binned').sum().sort_values(
 	by="counts",
 	ascending=False)
