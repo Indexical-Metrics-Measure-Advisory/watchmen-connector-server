@@ -29,7 +29,7 @@ def shutdown_event():
 @app.post("/task/run")
 def run_connector_server(task: WatchmenTask):
 	if task.pluginType == STREAMLIT:
-		port = run_streamlit_with_pm2(task, app_dict)
+		port = run_streamlit_with_pm2(task, app_dict,settings.watchmen_token)
 		task_call_back(settings.watchmen_token, task.achievementTaskId, AchievementPluginTaskStatus.SUCCESS,
 		               settings.streamlit_host + ":{}".format(port))
 
