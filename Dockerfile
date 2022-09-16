@@ -5,9 +5,9 @@ WORKDIR /app
 ADD . .
 
 
-
+RUN pip install watchmen-ml-python-sdk && pip install webencodings
 RUN pip install poetry && poetry config virtualenvs.create false && poetry update && poetry install --no-dev
-RUN pip install watchmen-ml-python-sdk
+
 
 
 EXPOSE 5000
