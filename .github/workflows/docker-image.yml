@@ -25,4 +25,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/indexical-metrics-measure-advisory/watchmen-matryoshka-doll:${{ github.event.release.tag_name }}
+          tags: ghcr.io/indexical-metrics-measure-advisory/watchmen-plugins-server:${{ github.event.release.tag_name }}
