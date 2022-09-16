@@ -1,6 +1,9 @@
 FROM python:3.9.6-slim-buster
 
 
+WORKDIR   /opt/
+RUN    apt-get update && apt-get install -y curl && apt-get install -y gnupg2 gcc g++
+
 WORKDIR /app
 ADD . .
 
