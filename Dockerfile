@@ -13,13 +13,9 @@ RUN apt-get update && apt-get install -y \
     wget \
     libatlas-base-dev \
     libffi-dev
-#RUN pip install cython
-#RUN pip download pyzmq
-#RUN tar -xzf pyzmq* \
-# && cd pyzmq* \
-# && python setup.py clean --all \
-# && python setup.py cython \
-# && pip install -v .
+
+
+
 
 WORKDIR /app
 ADD . .
@@ -28,6 +24,7 @@ RUN pip install webencodings  \
     && pip install watchmen-ml-python-sdk  \
     && pip install poetry  && poetry config virtualenvs.create false && poetry update  \
 RUN poetry install --no-dev
+RUN pip install "uvicorn[standard]"
 
 
 

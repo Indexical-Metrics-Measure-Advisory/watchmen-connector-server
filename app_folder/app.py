@@ -34,7 +34,7 @@ def get_most_covered_index(sum_counts,df,binned=[]):
 			break
 	return binned
 
-client = WatchmenStreamlitClient(WatchmenClient(token="0Z6ag50cdIPamBIgf8KfoQ",host=watchmen_host))
+client = WatchmenStreamlitClient(WatchmenClient("0Z6ag50cdIPamBIgf8KfoQ",watchmen_host))
 client.init(achievement_id)
 # global_filters = build_condition_bar(st)
 hide_streamlit_style(st)
